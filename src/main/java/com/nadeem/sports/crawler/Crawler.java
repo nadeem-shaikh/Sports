@@ -8,17 +8,22 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.nadeem.sports.entity.Sports;
 import com.nadeem.sports.service.SportsService;
 
+@PropertySource(ignoreResourceNotFound = true, value = "classpath:application.properties")
+
 @Component
 public class Crawler {
-
-	static private String CRAWL_URL = "http://www.espn.in/nba/scoreboard/_/date/20181218";
+	
+	@Value("${crawlUrl}")
+	String CRAWL_URL;
 
 	@Autowired
 	private SportsService sportsService;
@@ -62,7 +67,7 @@ public class Crawler {
 				int team2total = Integer.parseInt(e2.getElementsByClass("total").get(0).text());
 				sports.setTeam2Score(team2total);
 
-				String narration = e.getElementsByClass("recap-link").get(0).text();
+				String narration = e.getElementsByClass("caption-wrapper").get(0).text();
 				sports.setNarration(narration);
 
 				if (team1total < 0) {
