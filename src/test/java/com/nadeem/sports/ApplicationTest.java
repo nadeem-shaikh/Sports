@@ -15,7 +15,7 @@ import com.nadeem.sports.service.SportsService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class MyTest {
+public class ApplicationTest {
 
 	@Autowired
 	public SportsService sportsService;
